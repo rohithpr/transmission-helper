@@ -1,3 +1,8 @@
+'''
+Checks if there are any active downloads pending and initiates a shutdown
+procedure in case all downloads have finished.
+'''
+
 import os
 import threading
 import time
@@ -10,6 +15,10 @@ import transmissionrpc
 SHUTDOWN = None
 
 def get_download_status():
+    ''' (None) -> bool
+    Returns False if any file is still being downloaded or if
+    Transmission is not reachable at localhost:9091.
+    '''
     try:
         tc = transmissionrpc.Client('localhost', port=9091)
         torrents = tc.get_torrents()
@@ -21,6 +30,10 @@ def get_download_status():
         return False
 
 def show_message_box():
+    ''' (None) -> None
+    Show a dialog box so that the user can cancel the shutdown process.
+    The global variable SHUTDOWN is set if the user responds to the dialog box.
+    '''
     global SHUTDOWN
 
     # Create a temp window so that there aren't two windows on opening the message box
@@ -35,6 +48,9 @@ def show_message_box():
     return
 
 def main():
+    ''' (None) -> bool
+    Checks the status of active downloads and initiates shutdown procedure.
+    '''
     global SHUTDOWN
     all_done = get_download_status()
 
@@ -57,10 +73,12 @@ def main():
         return SHUTDOWN
 
 def shutdown():
-    print 'Shutting down'
+    ''' (None)
+    Reads and executes the contents of the file 'command' to shut down the computer.
+    '''
     with open('command') as fp:
         command = fp.readline()
-    # os.system(command)
+    os.system(command)
 
 if __name__ == '__main__':
     action = main()
