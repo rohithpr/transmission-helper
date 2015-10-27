@@ -31,3 +31,13 @@ Executing `sh loader.sh` should do the following in the said scenarios. Please t
 * Transmission is running and does not have active downloads: open dialog box.
   1. Clicking on `Cancel` returns the prompt.
   2. Clicking on `Ok` shuts down your computer.
+
+## Possible sources of errors
+
+* This directory isnt present in your `Home` directory (~).
+* The virtual environment isn't called `venv`.
+* The command `source` isn't executable from a shell script. This can be fixed.
+* The scripts don't have execution permission.
+* The command in the file `command` does not shutdown your computer on executing it from a terminal or ask for a password.
+* Remote access hasn't been enabled or it's on a port other than 9091.
+* The sript isn't being called at the end of a download. Go to `Edit > Preferences > Downloading`, check `Call script when torrent is completed` and point it to `loader.sh`.
